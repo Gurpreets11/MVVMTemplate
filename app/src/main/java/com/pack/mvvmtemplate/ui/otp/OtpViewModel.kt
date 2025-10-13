@@ -21,15 +21,15 @@ class OtpViewModel @Inject constructor(
     private val _otpState = MutableLiveData<Resource<String>>()
     val otpState: LiveData<Resource<String>> = _otpState
 
-    fun login(email: String, password: String) {
-        if (email.isBlank() || password.isBlank()) {
-            _otpState.value = Resource.Error("Enter email and password")
+    fun verifyOtp( otp: String) {
+        if (  otp.isBlank()) {
+            _otpState.value = Resource.Error("Enter otp value")
             return
         }
 
         viewModelScope.launch {
             _otpState.value = Resource.Loading
-            val result = authRepository.login(AuthModels.LoginRequest(email, password))
+            val result = authRepository.verifyOtp(AuthModels.OtpRequest(otp))
             if (result.isSuccess) {
                 val resp = result.getOrNull()!!
                 _otpState.value = Resource.Success(resp.token)

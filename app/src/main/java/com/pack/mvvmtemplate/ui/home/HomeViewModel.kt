@@ -21,11 +21,11 @@ class HomeViewModel @Inject constructor(
     private val _homeState = MutableLiveData<Resource<String>>()
     val homeState: LiveData<Resource<String>> = _homeState
 
-    fun login(email: String, password: String) {
-        if (email.isBlank() || password.isBlank()) {
+    fun getUserInfo(email: String, password: String) {
+        /*if (email.isBlank() || password.isBlank()) {
             _homeState.value = Resource.Error("Enter email and password")
             return
-        }
+        }*/
 
         viewModelScope.launch {
             _homeState.value = Resource.Loading

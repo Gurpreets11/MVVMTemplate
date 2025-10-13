@@ -19,7 +19,7 @@ class RegisterViewModel @Inject constructor(
     private val _registerState = MutableLiveData<Resource<String>>()
     val registerState: LiveData<Resource<String>> = _registerState
 
-    fun login(email: String, name: String, mobileNumber: String, password: String) {
+    fun register(email: String, name: String, mobileNumber: String, password: String) {
         if (email.isBlank()) {
             _registerState.value = Resource.Error("Enter email..")
             return
@@ -42,7 +42,7 @@ class RegisterViewModel @Inject constructor(
 
         viewModelScope.launch {
             _registerState.value = Resource.Loading
-            val result = authRepository.login(AuthModels.LoginRequest(email, password))
+            val result = authRepository.register(AuthModels.RegisterRequest(email,name,mobileNumber, password))
             if (result.isSuccess) {
                 val resp = result.getOrNull()!!
                 _registerState.value = Resource.Success(resp.token)

@@ -1,7 +1,6 @@
 package com.pack.mvvmtemplate.ui.changepassword
 
 
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,15 +20,24 @@ class ChangePasswordViewModel @Inject constructor(
     private val _changePasswordState = MutableLiveData<Resource<String>>()
     val changePasswordState: LiveData<Resource<String>> = _changePasswordState
 
-    fun login(email: String, password: String) {
-        if (email.isBlank() || password.isBlank()) {
-            _changePasswordState.value = Resource.Error("Enter email and password")
+    fun changePassword(password: String, newPassword: String) {
+        if (password.isBlank()) {
+            _changePasswordState.value = Resource.Error("Enter   password")
+            return
+        }
+        if (newPassword.isBlank()) {
+            _changePasswordState.value = Resource.Error("Enter new password")
             return
         }
 
         viewModelScope.launch {
             _changePasswordState.value = Resource.Loading
-            val result = authRepository.login(AuthModels.LoginRequest(email, password))
+            val result = authRepository.changePassword(
+                AuthModels.ChangePasswordRequest(
+                    password,
+                    newPassword
+                )
+            )
             if (result.isSuccess) {
                 val resp = result.getOrNull()!!
                 _changePasswordState.value = Resource.Success(resp.token)
