@@ -26,6 +26,10 @@ class OtpViewModel @Inject constructor(
             _otpState.value = Resource.Error("Enter otp value")
             return
         }
+        if (  otp.length < 4) {
+            _otpState.value = Resource.Error("Enter valid otp value")
+            return
+        }
 
         viewModelScope.launch {
             _otpState.value = Resource.Loading

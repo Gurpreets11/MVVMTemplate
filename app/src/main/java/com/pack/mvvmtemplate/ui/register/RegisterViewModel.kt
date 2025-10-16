@@ -35,8 +35,18 @@ class RegisterViewModel @Inject constructor(
             return
         }
 
+        if (mobileNumber.length < 10) {
+            _registerState.value = Resource.Error("Enter valid mobile number..")
+            return
+        }
+
         if (password.isBlank()) {
             _registerState.value = Resource.Error("Enter password..")
+            return
+        }
+
+        if (password.length < 6) {
+            _registerState.value = Resource.Error("Enter valid password..")
             return
         }
 

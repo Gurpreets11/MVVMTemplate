@@ -22,13 +22,19 @@ class ChangePasswordViewModel @Inject constructor(
 
     fun changePassword(password: String, newPassword: String) {
         if (password.isBlank()) {
-            _changePasswordState.value = Resource.Error("Enter   password")
+            _changePasswordState.value = Resource.Error("Enter password")
             return
         }
         if (newPassword.isBlank()) {
             _changePasswordState.value = Resource.Error("Enter new password")
             return
         }
+
+        if (newPassword.equals(password)) {
+            _changePasswordState.value = Resource.Error("Enter different password")
+            return
+        }
+
 
         viewModelScope.launch {
             _changePasswordState.value = Resource.Loading
